@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Prompt</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Modal Structure for Custom Prompt -->
+    <div id="customPrompt" class="modal">
+        <div class="modal-content">
+            <h2>Prompt</h2>
+            <p id="promptMessage">What would you like to do toady</p>
+            <input type="text" id="promptInput" placeholder="Enter your value here">
+            <div class="modal-buttons">
+                <button id="cancelBtn">Cancel</button>
+                <button id="okBtn">OK</button>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+
+<style>
+    /* Basic reset */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    button {
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        border: none;
+        background-color: #007bff;
+        color: white;
+        border-radius: 5px;
+    }
+
+    /* Modal Styles */
+    .modal {
+        display: none;
+        /* Hidden by default */
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.6);
+        /* Semi-transparent background */
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        color: black;
+    }
+
+    .modal-content {
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
+        color: black;
+        width: 300px;
+        text-align: center;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .modal-content input {
+        width: 100%;
+        padding: 10px;
+        margin-top: 10px;
+        margin-bottom: 20px;
+        color: black;
+        border: 1px solid #dad;
+        border-radius: 4px;
+    }
+
+    .modal-buttons {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .modal-buttons button {
+        padding: 10px 20px;
+        cursor: pointer;
+        border: none;
+        border-radius: 4px;
+    }
+
+    #cancelBtn {
+        background-color: #dc3545;
+        color: white;
+    }
+
+    #okBtn {
+        background-color: #28a745;
+        color: white;
+    }
+</style>
+
+
+<script>
+  // Get elements
+const openPromptBtn = document.getElementById('setter');
+const customPrompt = document.getElementById('customPrompt');
+const promptInput = document.getElementById('promptInput');
+const cancelBtn = document.getElementById('cancelBtn');
+const okBtn = document.getElementById('okBtn');
+const promptMessage = document.getElementById('promptMessage');
+
+// Function to show the custom prompt
+function showPrompt(message) {
+    return new Promise((resolve, reject) => {
+        promptMessage.innerText = message;
+        customPrompt.style.display = 'flex';  // Show the modal
+
+        // Focus on the input when the prompt is opened
+        setTimeout(() => {
+            promptInput.focus();
+        }, 200);
+
+        // Handle OK button click
+        okBtn.onclick = function () {
+            const inputValue = promptInput.value.trim();
+            if (inputValue) {
+                closePrompt();
+                resolve(inputValue);  // Resolve with the input value
+            } else {
+                promptInput.placeholder = "Prompt can't be empty";
+            }
+        };
+
+        // Handle Cancel button click
+        cancelBtn.onclick = function () {
+            closePrompt();
+            reject('Action canceled');  // Reject the promise
+        };
+    });
+}
+
+// Function to close the prompt
+function closePrompt() {
+    customPrompt.style.display = 'none';  // Hide the modal
+    promptInput.value = '';  // Clear the input field
+}
+
+// Example of how to use the showPrompt function
+openPromptBtn.addEventListener('click', async () => {
+    try {
+        const userInput = await showPrompt('What would you like to do today?');
+        console.log('User input:', userInput);  // Handle user input
+    } catch (error) {
+        console.error(error);  // Handle cancellation
+    }
+});
+
+</script>

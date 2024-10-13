@@ -21,7 +21,7 @@ foreach ($files as $key => $value) {
         switch ($fileExtension) {
             case 'pdf':
               $filePreview = <<<O
-                    <object class="pdf" data="/Files/$value" width='150px'></object>
+                    <object class="pdf" data="/adx/$value" width='150px'></object>
                     O;
                 break;
 
@@ -30,7 +30,7 @@ foreach ($files as $key => $value) {
             case 'webm':
                 $filePreview = <<<O
                     <video loop autoplay muted width="150">
-                    <source src="/Files/$value" type="video/webm"/>
+                    <source src="/adx/$value" type="video/webm"/>
                     </video>
                     O;
                 break;
@@ -48,7 +48,7 @@ foreach ($files as $key => $value) {
             case 'jpeg':
             case 'webp':
                 $filePreview = <<<O
-                    <img width='150px' src='/Files/$value' src='text'>
+                    <img width='150px' src='/adx/$value' src='text'>
                     O;
                 break;
 
@@ -78,9 +78,9 @@ foreach ($files as $key => $value) {
     </div>
     <form action="upload" method="post" enctype="multipart/form-data">
         Select image to upload:
-        <input type="file" name="fileToUpload" id="fileToUpload">
+        <input type="file" id='finp' name="fileToUpload" id="fileToUpload">
         <br>
-        <input type="submit" value="Upload Image" name="submit">
+        <input type="submit" id='filesd' value="Upload Image" name="submit">
       </form>
 </body>
 </html>
@@ -102,8 +102,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     }
 
 // Check file size
-    if ($_FILES["fileToUpload"]["size"] > 10000000) {
+    if ($_FILES["fileToUpload"]["size"] > 100000000) {
         echo "Sorry, your file is too large.";
+        echo $_FILES["fileToUpload"]["size"];
         $uploadOk = 0;
     }
 

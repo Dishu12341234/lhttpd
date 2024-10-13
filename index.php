@@ -120,6 +120,7 @@ switch (true) {
     case $route === '/fcss':
         header('Content-Type: text/css');
         echo file_get_contents('css/filemanager.css');
+        break;
     case $route === '/filemanager':
         header('Content-Type: text/javascript');
         echo file_get_contents('js/filemanager.js');
@@ -151,7 +152,7 @@ switch (true) {
 
     case preg_match('/^\/preview\/(.+)$/', $route, $matches):
     $filename = basename($matches[1]); // Prevent directory traversal
-    $filePath = "files/$filename";
+    $filePath = "adx/$filename";
     $fileExtension = pathinfo($filePath, PATHINFO_EXTENSION);
     $mimeType = 'other';
     
@@ -240,7 +241,7 @@ switch (true) {
         // readfile($filePath);
         break;
 
-        case preg_match('/^\/Files\/(.+)$/', $route, $matches):
+        case preg_match('/^\/adx\/(.+)$/', $route, $matches):
         $filename = basename($matches[1]); // Prevent directory traversal
         $filePath = "files/$filename";
         $fileExtension = pathinfo($filePath, PATHINFO_EXTENSION);
@@ -259,7 +260,7 @@ switch (true) {
                 $mimeType = 'image/gif';
                 break;
             case 'pdf':
-                $mimeType = 'image/pdf';
+                $mimeType = 'application/pdf';
                 break;
             // Add more MIME types as needed
             default:
@@ -279,8 +280,7 @@ switch (true) {
             $filename = basename($matches[1]); // Prevent directory traversal
             $filePath = "files/$filename";
             $res = exec("rm -rf $filePath");
-            echo "rm -rf $filePath";
-            // header("Location: /upload");
+            header("Location: /upload");
             break;
     default:
         require('views/nav.doc');

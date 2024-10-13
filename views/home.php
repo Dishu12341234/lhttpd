@@ -1,5 +1,6 @@
 
 <?php
+
 $servername = "localhost";
 $username = "time_it_user";
 $pwss = "time_it@mysql";
@@ -45,20 +46,6 @@ if ($res->num_rows > 0) {
 <!-- current status has two sets of values active and inactive -->
 <!DOCTYPE html>
 <html lang="en">
-<head>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.1.1/chart.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.1.1/helpers.esm.min.js"></script>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Timit</title>
-    <script src="ui" defer></script>
-    <link rel="stylesheet" href="uic">
-    <style>
-
-</style>
-</head>
-
 <head>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.1.1/chart.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.1.1/helpers.esm.min.js"></script>
@@ -263,3 +250,7 @@ p#timer:hover {
 
 </body>
 </html>
+
+<?php
+include "prompter.doc"; 
+?>

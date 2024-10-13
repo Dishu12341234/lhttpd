@@ -1,8 +1,8 @@
 CurrentMonth: Oct
 CurrentYear: 2024
 CurrentDayIndex: 13
-CurrentTime: 9:16:42 -5.5
+CurrentTime: 10:34:39 -5.5
 CurrentStatus: inactive
-TODO: Nothing
-TimeStudied: 0.11873333333333333
+TODO: dff
+TimeStudied: 5.029966666666667
 SQL Error: 

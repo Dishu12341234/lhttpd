@@ -14,3 +14,7 @@ if(uploadstats.innerText == 'ups')
 {
     window.location.replace(window.location.pathname)
 }
+
+let uplaoder = document.getElementById('finp')
+let uploadButton = document.getElementById('filesd')
+uplaoder.addEventListener("input",()=>{uploadButton.click()})

@@ -91,7 +91,7 @@
         $conn->query($sql);
 
         // Query to fetch logs where TODO is not empty
-        $sql = "SELECT * FROM logs WHERE TODO!=''";
+        $sql = "SELECT * FROM logs WHERE TimeStudied!=''";
         $result = $conn->query($sql);
 
         // If there are results, display them

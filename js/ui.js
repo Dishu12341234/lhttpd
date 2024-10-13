@@ -1,25 +1,26 @@
-var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-var date = new Date();
+const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+const date = new Date();
 
 
-var initialise = (keyWord, defaultValue,runCheck=true) => {
-    if (window.localStorage.getItem(keyWord) == null || !runCheck) {
+
+const initialise = (keyWord, defaultValue, runCheck = true) => {
+    if (window.localStorage.getItem(keyWord) == (null || undefined) || !runCheck) {
         window.localStorage.setItem(keyWord, defaultValue);
     }
 };
 
-var setter = document.getElementById('setter');
-var timerDisplay = document.getElementById('timer');
+const setter = document.getElementById('setter');
+const timerDisplay = document.getElementById('timer');
 
-var setItem = (key, value) => {
+const setItem = (key, value) => {
     window.localStorage.setItem(key, value);
 };
 
-var getItem = (key) => {
+const getItem = (key) => {
     return window.localStorage.getItem(key);
 };
 
-var fields = ['CurrentMonth', 'CurrentYear', 'CurrentDayIndex', 'CurrentTime', 'CurrentStatus', 'TODO', 'Message', 'TimeStudied', 'CurrentTimeInMSRef1970'];
+const fields = ['CurrentMonth', 'CurrentYear', 'CurrentDayIndex', 'CurrentTime', 'CurrentStatus', 'TODO', 'Message', 'TimeStudied', 'CurrentTimeInMSRef1970'];
 fields.forEach(el => {
     initialise(el, 0);
 });
@@ -35,24 +36,26 @@ setItem(fields[1], date.getFullYear());
 setItem(fields[2], date.getDate());
 setItem(fields[3], `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()} ${date.getTimezoneOffset() / 60}`);
 
-var formatTime = (totalSeconds) => {
-    var seconds = totalSeconds % 60;
-    var minutes = Math.floor((totalSeconds / 60) % 60);
-    var hours = Math.floor(totalSeconds / 3600);
+const formatTime = (totalSeconds) => {
+    const seconds = totalSeconds % 60;
+    const minutes = Math.floor((totalSeconds / 60) % 60);
+    const hours = Math.floor(totalSeconds / 3600);
     return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
 };
 
 // let timer;
 
-var updateTimerDisplay = () => {
-    var elapsed = Math.floor((new Date().getTime() - Number(getItem(fields[8]))) / 1000);
+const updateTimerDisplay = () => {
+    const elapsed = Math.floor((new Date().getTime() - Number(getItem(fields[8]))) / 1000);
     timerDisplay.innerText = formatTime(elapsed);
 };
 
-var clickHandler = () => {
+
+async function clickHandler (){
+    
     if (getItem(fields[4]) === 'inactive') {
-        let TODO = prompt('What is on your TODO list today?', 'Enter Here');
-        if (TODO === null || TODO.trim() === '') {
+        const TODO = await showPrompt('What are your goals today:');
+        if (TODO === (null || undefined)) {
             setItem(fields[5], 'Empty');
             alert('Please enter something in TODO to start the counter');
         } else {
@@ -60,7 +63,6 @@ var clickHandler = () => {
                 initialise(el, 0);
             });
             setItem(fields[8], new Date().getTime());
-            setItem(fields[5], TODO);
             setItem(fields[4], 'active');
             setter.innerText = 'Stop';
             timer = setInterval(updateTimerDisplay, 1000); // Update every second
@@ -71,7 +73,7 @@ var clickHandler = () => {
         setter.innerText = 'Start';
         clearInterval(timer);
 
-        var requestBody = {
+        const requestBody = {
             CurrentMonth: getItem(fields[0]),
             CurrentYear: getItem(fields[1]),
             CurrentDayIndex: getItem(fields[2]),
@@ -88,10 +90,11 @@ var clickHandler = () => {
             },
             body: JSON.stringify(requestBody),
         })
-        .then(response => response.json())
-        .then(data => {console.log(data);window.location.reload();
-        })
-        .catch(error => console.error('Error:', error));
+            .then(response => response.json())
+            .then(data => {
+                console.log(data); window.location.reload();
+            })
+            .catch(error => console.error('Error:', error));
     }
 };
 
@@ -101,7 +104,7 @@ if (getItem(fields[4]) === 'active') {
     timer = setInterval(updateTimerDisplay, 1000); // Start the timer if already active
 }
 
-// var myChart = new Chart("myChart", {
+// const myChart = new Chart("myChart", {
 //     type: "line",
 //     data: {},
 //     options: {}

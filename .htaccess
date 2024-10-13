@@ -5,20 +5,26 @@ RewriteEngine On
 Options -Indexes
 Header set Access-Control-Allow-Origin "*"
 
-# Handle the root request (empty URI)
+# Allow access to the index.php file
+RewriteRule ^index\.php$ - [L]
+
+# Allow full access to the "Files" directory
+RewriteCond %{REQUEST_URI} ^/Files/.*$ [OR]
+RewriteCond %{REQUEST_URI} ^/Files$
+RewriteRule ^ - [L]
+
+# Handle the root request (empty URI) and direct it to index.php
 RewriteCond %{REQUEST_URI} ^/$
 RewriteRule ^ index.php [L]
 
-# Block access to certain file types (e.g., .php, .html, .txt) except index.php
-RewriteCond %{REQUEST_FILENAME} -f
-RewriteCond %{REQUEST_URI} !^/index\.php$ [NC]
-RewriteRule .* - [F,L]
-
-# Handle all other routes and direct them to index.php with a route parameter
+# Allow access to specific routes (if needed)
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)$ index.php?route=$1 [L,QSA]
 
-# Increase file upload limits
+# Deny access to all other files and directories
+RewriteRule ^ - [F]
+
+# Set PHP configuration values
 php_value upload_max_filesize 50M
 php_value post_max_size 55M
