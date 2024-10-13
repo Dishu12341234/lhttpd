@@ -1,0 +1,1 @@
+UPDATE logs set CurrentMonth='Oct',CurrentYear='2024',CurrentDayIndex='13',CurrentTime='9:16:42 -5.5',CurrentStatus='inactive',TODO='Nothing',TimeStudied=TimeStudied + 0.11873333333333333 WHERE CurrentMonth='Oct' AND CurrentDayIndex='13' AND CurrentYear=2024

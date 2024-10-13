@@ -1,0 +1,24 @@
+# Enable the RewriteEngine
+RewriteEngine On
+
+# Disable directory listings
+Options -Indexes
+Header set Access-Control-Allow-Origin "*"
+
+# Handle the root request (empty URI)
+RewriteCond %{REQUEST_URI} ^/$
+RewriteRule ^ index.php [L]
+
+# Block access to certain file types (e.g., .php, .html, .txt) except index.php
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteCond %{REQUEST_URI} !^/index\.php$ [NC]
+RewriteRule .* - [F,L]
+
+# Handle all other routes and direct them to index.php with a route parameter
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php?route=$1 [L,QSA]
+
+# Increase file upload limits
+php_value upload_max_filesize 50M
+php_value post_max_size 55M

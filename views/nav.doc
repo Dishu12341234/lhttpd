@@ -1,0 +1,140 @@
+<nav class="navbar">
+    <div class="nav-container">
+        <a href="/" class="nav-logo">
+        </a>
+        <div class="hamburger">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </div>
+        <ul class="nav-list">
+            <li class="nav-item"><a href="/" class="nav-link">Home</a></li>
+            <li class="nav-item"><a href="/logs" class="nav-link">Logs</a></li>
+            <li class="nav-item"><a href="/pdf" class="nav-link">Download Graphs</a></li>
+            <li class="nav-item"><a href="/upload" class="nav-link">files</a></li>
+        </ul>
+    </div>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</nav>
+<br><br><br>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #222;
+        color: #fff;
+    }
+
+    .navbar {
+        background-color: #333;
+        padding: 10px 20px;
+        width: 100%;
+        position: absolute;
+        top: 0;
+        z-index: 1000;
+    }
+
+    .nav-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .nav-list {
+        list-style-type: none;
+        display: flex;
+        justify-content: center;
+        transition: max-height 0.3s ease-in-out;
+    }
+
+    .nav-item {
+        margin: 0 15px;
+    }
+
+    .nav-link {
+        color: #fff;
+        text-decoration: none;
+        font-size: 18px;
+        padding: 8px 12px;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .nav-link:hover {
+        background-color: #555;
+        color: #fff;
+        border-radius: 5px;
+    }
+
+    /* Hamburger Menu */
+    .hamburger {
+        display: none;
+        flex-direction: column;
+        cursor: pointer;
+    }
+
+    .bar {
+        height: 3px;
+        width: 25px;
+        background-color: #fff;
+        margin: 4px 0;
+        transition: 0.3s;
+    }
+
+    /* Media Queries for Responsiveness */
+
+    /* For Tablets and Below */
+    @media screen and (max-width: 768px) {
+        .nav-list {
+            position: absolute;
+            top: 60px;
+            left: 0;
+            width: 100%;
+            flex-direction: column;
+            background-color: #333;
+            overflow: hidden;
+            max-height: 0;
+        }
+
+        .nav-item {
+            margin: 10px 0;
+            text-align: center;
+        }
+
+        .nav-list.active {
+            max-height: 300px; /* Adjust as needed based on your number of nav items */
+        }
+
+        /* Hamburger visible on smaller screens */
+        .hamburger {
+            display: flex;
+        }
+
+        .hamburger.active .bar:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active .bar:nth-child(1) {
+            transform: translateY(7px) rotate(45deg);
+        }
+
+        .hamburger.active .bar:nth-child(3) {
+            transform: translateY(-7px) rotate(-45deg);
+        }
+    }
+</style>
+
+<script>
+    const hamburger = document.querySelector('.hamburger');
+    const navList = document.querySelector('.nav-list');
+
+    hamburger.addEventListener('click', () => {
+        navList.classList.toggle('active');
+        hamburger.classList.toggle('active');
+    });
+</script>

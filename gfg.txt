@@ -1,0 +1,8 @@
+CurrentMonth: Oct
+CurrentYear: 2024
+CurrentDayIndex: 13
+CurrentTime: 9:16:42 -5.5
+CurrentStatus: inactive
+TODO: Nothing
+TimeStudied: 0.11873333333333333
+SQL Error: 
