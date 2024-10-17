@@ -51,9 +51,13 @@ const updateTimerDisplay = () => {
 };
 
 async function confirmTime() {
-    const confirmationTimer = await showPrompt(`It has been more than ${getItem(fields[7])/60} Hrs <br> please confirm that you really want to continue`)
+    const confirmationTimer = await showPrompt(`It has been more than ${parseInt(getItem(fields[7])/60)} Hrs please confirm that you really want to continue`,()=>{timerDisplay.innerText = '00:00:00'})
     if (confirmationTimer === (null || undefined) || confirmationTimer !== 'YES') {
         setItem(fields[7],'0');
+        fields.forEach(el => {
+            initialise(el, 0);
+        });
+        
     }
 }
 

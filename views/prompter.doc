@@ -115,7 +115,7 @@ const okBtn = document.getElementById('okBtn');
 const promptMessage = document.getElementById('promptMessage');
 
 // Function to show the custom prompt
-function showPrompt(message) {
+function showPrompt(message,cb=null) {
     return new Promise((resolve, reject) => {
         promptMessage.innerText = message;
         customPrompt.style.display = 'flex';  // Show the modal
@@ -139,6 +139,10 @@ function showPrompt(message) {
         // Handle Cancel button click
         cancelBtn.onclick = function () {
             closePrompt();
+            if(cb !== null)
+            {
+                cb();
+            }
             reject('Action canceled');  // Reject the promise
         };
     });
