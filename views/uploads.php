@@ -58,8 +58,8 @@ foreach ($files as $key => $value) {
                 break;
         }
         $exv = $value;
-        if (strlen($value) >= 13) {
-            $value = chunk_split($value, 15, '<br>');
+        if (strlen($value) >= 10) {
+            $value = chunk_split($value, 10, '<br>');
         }
         $html = <<<O
           

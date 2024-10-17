@@ -155,7 +155,7 @@ switch (true) {
     $filePath = "adx/$filename";
     $fileExtension = pathinfo($filePath, PATHINFO_EXTENSION);
     $mimeType = 'other';
-    
+    $canPreview = true;
     switch (strtolower($fileExtension)) {
         case 'jpg':
         case 'jpeg':
@@ -186,13 +186,31 @@ switch (true) {
             header('Accept-Ranges: bytes');
             break;
         // Add more MIME types as needed
+	case "html":
+	case "js":
+	case "css":
+		die('Can\'t preview that sorry');
+		break;
         default:
             include ('views/nav.doc');
             $html = <<<O
             <a download href='/$filePath'> <pre><i>Click on me to download</i></pre></a>
             O;
+	    if(!$canPreview)
+	    {die("you can't preview that");}
+	   
             echo $html;
-            readfile($filePath);
+	    if(filesize("files/$filename") >= 1000000)//10MB
+	    {
+		echo "The file is too larger to preview <br>";
+		echo filesize("files/$filename")/1000000;
+		echo "MB!";
+	    }
+	    else
+	    {
+		readfile("files/$filename");
+
+	    }
             exit;
         }
         if(substr($mimeType,0,5) == 'image')
@@ -222,6 +240,13 @@ switch (true) {
             echo $html;
             return;
         }
+	elseif($mimeType == 'application/cf')
+	{
+	include('views/nav.doc');
+	$html = <<<O
+	<a href="/$filePath"><pre>You Can't preview a compressed file format please<br>Click on me to download</pre></a>
+	O;
+	}
         elseif( $mimeType == 'application/pdf')
         {
             include ('views/nav.doc');

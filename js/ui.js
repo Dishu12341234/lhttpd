@@ -1,5 +1,5 @@
 const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-const date = new Date();
+let date = new Date();
 
 
 
@@ -20,7 +20,7 @@ const getItem = (key) => {
     return window.localStorage.getItem(key);
 };
 
-const fields = ['CurrentMonth', 'CurrentYear', 'CurrentDayIndex', 'CurrentTime', 'CurrentStatus', 'TODO', 'Message', 'TimeStudied', 'CurrentTimeInMSRef1970'];
+const fields = ['CurrentMonth', 'CurrentYear', 'CurrentDayIndex', 'CurrentTime', 'CurrentStatus', 'TODO', 'Message', 'TimeStudied   ', 'CurrentTimeInMSRef1970'];
 fields.forEach(el => {
     initialise(el, 0);
 });
@@ -50,6 +50,39 @@ const updateTimerDisplay = () => {
     timerDisplay.innerText = formatTime(elapsed);
 };
 
+async function confirmTime() {
+    const confirmationTimer = await showPrompt(`It has been more than ${getItem(fields[7])/60} Hrs <br> please confirm that you really want to continue`)
+    if (confirmationTimer === (null || undefined) || confirmationTimer !== 'YES') {
+        setItem(fields[7],'0');
+    }
+}
+
+const sendRequest = () =>
+{
+    const requestBody = {
+        CurrentMonth: getItem(fields[0]),
+        CurrentYear: getItem(fields[1]),
+        CurrentDayIndex: getItem(fields[2]),
+        CurrentTime: getItem(fields[3]),
+        CurrentStatus: getItem(fields[4]),
+        TODO: getItem(fields[5]) || 'EMPTY',
+        TimeStudied: getItem(fields[7]),
+    };
+    
+    fetch('data', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestBody),
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data); window.location.reload();
+    })
+    .catch(error => console.error('Error:', error));
+
+}
 
 async function clickHandler (){
     
@@ -62,6 +95,11 @@ async function clickHandler (){
             fields.forEach(el => {
                 initialise(el, 0);
             });
+            date = new Date();
+            setItem(fields[0], months[date.getMonth()]);
+            setItem(fields[1], date.getFullYear());
+            setItem(fields[2], date.getDate());
+            setItem(fields[3], `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()} ${date.getTimezoneOffset() / 60}`);
             setItem(fields[8], new Date().getTime());
             setItem(fields[4], 'active');
             setter.innerText = 'Stop';
@@ -73,28 +111,18 @@ async function clickHandler (){
         setter.innerText = 'Start';
         clearInterval(timer);
 
-        const requestBody = {
-            CurrentMonth: getItem(fields[0]),
-            CurrentYear: getItem(fields[1]),
-            CurrentDayIndex: getItem(fields[2]),
-            CurrentTime: getItem(fields[3]),
-            CurrentStatus: getItem(fields[4]),
-            TODO: getItem(fields[5]) || 'EMPTY',
-            TimeStudied: getItem(fields[7]),
-        };
-
-        fetch('data', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(requestBody),
-        })
-            .then(response => response.json())
-            .then(data => {
-                console.log(data); window.location.reload();
+        if(getItem(fields[7])/60 >= 4)
+        {
+            var confirmation = confirmTime();
+            
+            confirmation.then(()=>{
+                sendRequest()
             })
-            .catch(error => console.error('Error:', error));
+        }
+        else
+        {
+            sendRequest()
+        }
     }
 };
 

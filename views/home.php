@@ -78,8 +78,6 @@ body {
 
 /* Graph container */
 canvas#graph {
-    width: 100%;
-    max-width: 800px;
     margin: 100px 0 40px;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
@@ -143,7 +141,7 @@ p#timer:hover {
         padding: 30px;
     }
     canvas#graph {
-        max-width: 1000px;
+        /* max-width: 1600px; */
     }
 }
 
@@ -232,9 +230,10 @@ p#timer:hover {
                     backgroundColor: "#fa93ff66",
                     borderColor: "#ffaeff",
                     borderWidth: 1,
-                    fill: true,
+                    // fill: true,
                     pointHoverRadius: 4,
-                    pointHitRadius: 1
+                    pointHitRadius: 1,
+                    tension:.2
                 }],
             },
             options: {
